@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block title %}{{ plant.name }} - Verdant{% endblock %}
+{% block content %}
+    {% if plant %}
+        <a href="/" class="back-link">&larr; Back to dashboard</a>
+        <span class="eyebrow">// PLANT PROFILE</span>
+        <h1>{{ plant.name }}</h1>
+        <p class="species scientific-name">{{ plant.species or "Unknown species" }}</p>
+        <p class="location">📍 {{ plant.location or "No location set" }}</p>
+        <p>Watering interval: every {{ plant.watering_interval_days }} day(s)</p>
+        <p>Last watered: {{ plant.last_watered.strftime('%b %d, %Y') if plant.last_watered else "Never" }}</p>
+        {% if plant.notes %}<p class="notes">{{ plant.notes }}</p>{% endif %}
+
+        <form action="/plants/{{ plant.id }}/water" method="post">
+            <button type="submit" class="btn">💧 Mark Watered Today</button>
+        </form>
+
+        <form action="/plants/{{ plant.id }}/delete" method="post" onsubmit="return confirm('Delete this plant?');">
+            <button type="submit" class="btn btn-danger">Delete Plant</button>
+        </form>
+
+        <h2>Care History</h2>
+        {% if not logs %}
+            <p class="empty-state">No care logs yet.</p>
+        {% else %}
+            <ul class="log-list">
+                {% for log in logs %}
+                    <li>{{ log.date.strftime('%b %d, %Y %H:%M') }} — {{ log.action }}{% if log.notes %} ({{ log.notes }}){% endif %}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    {% else %}
+        <p>Plant not found.</p>
+    {% endif %}
+{% endblock %}

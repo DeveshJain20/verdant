@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block title %}Add Plant - Verdant{% endblock %}
+{% block content %}
+    <span class="eyebrow">// NEW PLANT</span>
+    <h1>Add a plant</h1>
+    <form action="/plants/new" method="post" class="plant-form">
+        <label>Name*
+            <input type="text" name="name" required value="{{ prefill_name or '' }}">
+        </label>
+        <label>Species
+            <input type="text" name="species" value="{{ prefill_species or '' }}">
+        </label>
+        <label>Location
+            <input type="text" name="location" placeholder="e.g. Living room window">
+        </label>
+        <label>Watering interval (days)
+            <input type="number" name="watering_interval_days" value="7" min="1">
+        </label>
+        <label>Notes
+            <textarea name="notes" rows="3">{{ prefill_notes or '' }}</textarea>
+        </label>
+        <button type="submit" class="btn">Add Plant</button>
+    </form>
+{% endblock %}

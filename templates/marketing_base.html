@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Verdant — AI Plant Health{% endblock %}</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <header class="site-header">
+        <a href="/" class="logo">🌿 Verdant</a>
+        <button class="nav-toggle" aria-label="Toggle menu" aria-expanded="false">
+            <span></span><span></span><span></span>
+        </button>
+        <nav class="nav-links">
+            <a href="/">Home</a>
+            <a href="/about">About</a>
+            <a href="/services">Services</a>
+            <a href="/faq">FAQ</a>
+            <a href="/contact">Contact</a>
+            {% if user %}
+                <a href="/dashboard" class="btn btn-small">Go to Dashboard</a>
+            {% else %}
+                <a href="/login">Log In</a>
+                <a href="/signup" class="btn btn-small">Get Started</a>
+            {% endif %}
+        </nav>
+    </header>
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+    <footer class="site-footer">
+        <div class="footer-grid">
+            <div>
+                <div class="logo" style="margin-bottom:0.5rem;">🌿 Verdant</div>
+                <p>AI-powered plant diagnosis and care, for every grower.</p>
+            </div>
+            <div>
+                <h4>Company</h4>
+                <a href="/about">About us</a>
+                <a href="/services">Services</a>
+                <a href="/faq">FAQ</a>
+            </div>
+            <div>
+                <h4>Support</h4>
+                <a href="/contact">Contact us</a>
+            </div>
+            <div>
+                <h4>Get in touch</h4>
+                <p>hello@verdant.example</p>
+                <p>Mon–Fri, 9am–6pm</p>
+            </div>
+        </div>
+        <p class="footer-bottom">© 2026 Verdant. Made for growers everywhere.</p>
+    </footer>
+    <script src="/static/app.js"></script>
+</body>
+</html>

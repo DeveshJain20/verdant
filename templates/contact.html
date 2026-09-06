@@ -1,0 +1,38 @@
+{% extends "marketing_base.html" %}
+{% block title %}Contact - Verdant{% endblock %}
+{% block content %}
+    <div class="wide-container">
+        <span class="eyebrow">// GET IN TOUCH</span>
+        <h1>We're here to help</h1>
+        <p style="color:var(--muted); max-width:60ch;">Questions about a diagnosis, billing, or partnering with us for schools and NGOs? Send us a message and we'll get back to you.</p>
+
+        {% if success %}
+            <p class="status" style="color:var(--sage-dark);">✓ Thanks — your message has been sent. We'll respond within 1-2 business days.</p>
+        {% endif %}
+
+        <div class="contact-grid">
+            <form action="/contact" method="post" class="plant-form">
+                <label>Name*
+                    <input type="text" name="name" required>
+                </label>
+                <label>Email*
+                    <input type="email" name="email" required>
+                </label>
+                <label>Subject
+                    <input type="text" name="subject">
+                </label>
+                <label>Message*
+                    <textarea name="message" rows="5" required></textarea>
+                </label>
+                <button type="submit" class="btn">Send Message</button>
+            </form>
+
+            <div>
+                <h3>Other ways to reach us</h3>
+                <p><strong>Email:</strong> hello@verdant.example</p>
+                <p><strong>Support hours:</strong> Mon–Fri, 9am–6pm</p>
+                <p style="margin-top:2rem;"><strong>For schools & NGOs:</strong><br>Ask about bulk access and classroom garden programs.</p>
+            </div>
+        </div>
+    </div>
+{% endblock %}

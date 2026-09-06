@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block title %}Dashboard - Verdant{% endblock %}
+{% block content %}
+    <section class="hero">
+        <span class="eyebrow">// YOUR PLANTS, TRACKED DAILY</span>
+        <h1>Grown with care,<br>not guesswork.</h1>
+        <p>Verdant keeps track of every plant you own — when it was last watered, when it needs water next, and what it actually needs to thrive.</p>
+        <a href="/scan" class="btn">📷 Scan a Plant</a>
+        <a href="/plants/new" class="btn btn-outline">+ Add Manually</a>
+    </section>
+
+    {% if not plant_data %}
+        <p class="empty-state">No plants yet. <a href="/plants/new">Add your first plant</a> or <a href="/scan">scan one</a> to get started.</p>
+    {% else %}
+        <div class="plant-grid">
+            {% for item in plant_data %}
+                <div class="plant-card {% if item.needs_water %}needs-water{% endif %}">
+                    <h2><a href="/plants/{{ item.plant.id }}">{{ item.plant.name }}</a></h2>
+                    <p class="species">{{ item.plant.species or "Unknown species" }}</p>
+                    <p class="location">📍 {{ item.plant.location or "No location set" }}</p>
+                    {% if item.needs_water %}
+                        <p class="status status-warning">💧 Needs water now</p>
+                    {% else %}
+                        <p class="status">💧 Water in {{ item.days_left }} day(s)</p>
+                    {% endif %}
+                    <form action="/plants/{{ item.plant.id }}/water" method="post">
+                        <button type="submit" class="btn btn-small">Mark Watered</button>
+                    </form>
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+{% endblock %}

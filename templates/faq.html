@@ -1,0 +1,43 @@
+{% extends "marketing_base.html" %}
+{% block title %}FAQ - Verdant{% endblock %}
+{% block content %}
+    <div class="wide-container">
+        <span class="eyebrow">// COMMON QUESTIONS</span>
+        <h1>Frequently asked questions</h1>
+
+        <details class="faq-item">
+            <summary>How accurate is the plant identification?</summary>
+            <p>Verdant uses PlantNet's identification engine, trained on millions of verified plant photos, and typically returns species matches with confidence scores so you can judge reliability yourself.</p>
+        </details>
+
+        <details class="faq-item">
+            <summary>What's included in a free scan?</summary>
+            <p>Free scans identify the species and give a confidence score. Full issue diagnosis, treatment plans, and prevention tips require a Basic or Pro plan.</p>
+        </details>
+
+        <details class="faq-item">
+            <summary>Can I cancel my subscription anytime?</summary>
+            <p>Yes. Subscriptions are billed monthly with no lock-in — you can cancel anytime from your account settings and you'll keep access until the end of your billing period.</p>
+        </details>
+
+        <details class="faq-item">
+            <summary>Does the AI chat assistant work for any plant?</summary>
+            <p>Yes, the Pro plan's chat assistant is available for every plant in your collection, and it has context on that specific plant's species and scan history.</p>
+        </details>
+
+        <details class="faq-item">
+            <summary>Is my data private?</summary>
+            <p>Your plants, scans, and account details are private to your account. We don't sell your data to third parties.</p>
+        </details>
+
+        <details class="faq-item">
+            <summary>What payment methods do you accept?</summary>
+            <p>We accept UPI, all major debit/credit cards, and net banking through Razorpay, India's leading payment gateway.</p>
+        </details>
+
+        <details class="faq-item">
+            <summary>Do you offer plans for schools or organizations?</summary>
+            <p>Yes — reach out through our <a href="/contact">contact page</a> for classroom gardens, NGO food-security projects, or corporate wellness programs.</p>
+        </details>
+    </div>
+{% endblock %}

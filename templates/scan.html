@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block title %}Scan a Plant - Verdant{% endblock %}
+{% block content %}
+    <span class="eyebrow">// AI PLANT SCANNER</span>
+    <h1>What plant is this?</h1>
+    <p>Upload a clear photo of a leaf or flower and Verdant will try to identify the species using PlantNet's AI.</p>
+
+    <form action="/scan" method="post" enctype="multipart/form-data" class="scan-box">
+        <p>📷 Choose a photo (leaf, flower, or whole plant)</p>
+        <input type="file" name="photo" accept="image/*" required>
+        <br>
+        <button type="submit" class="btn">Identify Plant</button>
+    </form>
+
+    {% if error %}
+        <div class="scan-result">
+            <p class="status status-warning">{{ error }}</p>
+        </div>
+    {% endif %}
+
+    {% if results %}
+        <div class="scan-result">
+            <h2>Possible matches</h2>
+            {% for r in results %}
+                <div class="candidate">
+                    <strong>{{ r.common_name }}</strong>
+                    <p class="scientific-name">{{ r.scientific_name }}</p>
+                    <div class="confidence-bar">
+                        <div class="confidence-fill" style="width: {{ r.confidence_pct }}%"></div>
+                    </div>
+                    <p>{{ r.confidence_pct }}% confidence</p>
+                    <form action="/plants/new" method="get">
+                        <input type="hidden" name="prefill_name" value="{{ r.common_name }}">
+                        <input type="hidden" name="prefill_species" value="{{ r.scientific_name }}">
+                        <button type="submit" class="btn btn-small">Add this plant</button>
+                    </form>
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+{% endblock %}

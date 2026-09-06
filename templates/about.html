@@ -1,0 +1,28 @@
+{% extends "marketing_base.html" %}
+{% block title %}About - Verdant{% endblock %}
+{% block content %}
+    <div class="wide-container">
+        <span class="eyebrow">// OUR STORY</span>
+        <h1>We got tired of guessing too.</h1>
+        <p style="font-size:1.1rem; color:var(--muted); max-width:65ch;">Verdant started the same way most plant problems do — with a dying fiddle leaf fig and a dozen contradictory blog posts about why. We built the tool we wished existed: something that actually looks at your plant and tells you what's wrong, instead of asking you to diagnose it yourself from a stock photo.</p>
+
+        <div class="timeline-grid" style="margin-top:3rem;">
+            <div class="timeline-item">
+                <span class="timeline-day">WHAT WE BELIEVE</span>
+                <h3>Specific beats generic</h3>
+                <p>"Water weekly" isn't advice, it's a guess. Every recommendation Verdant gives is tied to the actual species and condition in front of it.</p>
+            </div>
+            <div class="timeline-item">
+                <span class="timeline-day">HOW WE WORK</span>
+                <h3>AI trained on real plant pathology</h3>
+                <p>Our diagnosis engine combines species identification with known disease and deficiency patterns, not just plant identification alone.</p>
+            </div>
+        </div>
+
+        <div class="cta-dark" style="margin-left:0; margin-right:0; max-width:none;">
+            <h2>Built for growers, not showrooms.</h2>
+            <p>Whether it's one windowsill herb or a balcony full of pots, Verdant scales to what you're actually growing.</p>
+            <a href="/signup" class="btn">Get Started Free</a>
+        </div>
+    </div>
+{% endblock %}

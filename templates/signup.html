@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block title %}Sign Up - Verdant{% endblock %}
+{% block content %}
+    <span class="eyebrow">// CREATE YOUR ACCOUNT</span>
+    <h1>Join Verdant</h1>
+    <p>Track your plants, scan for diagnosis, and get AI-powered care guidance.</p>
+
+    {% if error %}
+        <p class="status status-warning">{{ error }}</p>
+    {% endif %}
+
+    <form action="/signup" method="post" class="plant-form">
+        <label>Full Name
+            <input type="text" name="full_name" required>
+        </label>
+        <label>Email
+            <input type="email" name="email" required>
+        </label>
+        <label>Password
+            <input type="password" name="password" required minlength="6">
+        </label>
+        <button type="submit" class="btn">Create Account</button>
+    </form>
+
+    <p>Already have an account? <a href="/login">Log in</a></p>
+{% endblock %}
