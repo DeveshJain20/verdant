@@ -2,8 +2,7 @@ from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
 
 from database import Base, engine
-from routers import plants, api, scan, auth, marketing
-
+from routers import plants, api, scan, auth, marketing, billing
 Base.metadata.create_all(bind=engine)
 
 app = FastAPI(title="Verdant - AI Plant Diagnosis")
@@ -15,3 +14,4 @@ app.include_router(auth.router)
 app.include_router(plants.router)
 app.include_router(api.router)
 app.include_router(scan.router)
+app.include_router(billing.router)

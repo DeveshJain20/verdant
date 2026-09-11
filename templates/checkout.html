@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% block title %}Checkout - Verdant{% endblock %}
+{% block content %}
+    <h1>Completing your {{ plan_label }} subscription…</h1>
+    <p>A secure Razorpay window will open. Complete payment there.</p>
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+    <script>
+        var options = {
+            key: "{{ key_id }}",
+            subscription_id: "{{ subscription_id }}",
+            name: "Verdant",
+            description: "{{ plan_label }} Plan",
+            prefill: { name: "{{ user_name }}", email: "{{ user_email }}" },
+            theme: { color: "#4a6b3f" },
+            handler: function (response) {
+                fetch("/checkout/verify", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        razorpay_payment_id: response.razorpay_payment_id,
+                        razorpay_subscription_id: response.razorpay_subscription_id,
+                        razorpay_signature: response.razorpay_signature,
+                        plan: "{{ plan }}"
+                    })
+                }).then(r => r.json()).then(data => {
+                    window.location.href = data.success ? "/dashboard" : "/services";
+                });
+            },
+            modal: { ondismiss: function () { window.location.href = "/services"; } }
+        };
+        var rzp = new Razorpay(options);
+        rzp.open();
+    </script>
+{% endblock %}

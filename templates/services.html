@@ -18,7 +18,11 @@
                     <li>Basic watering tracker</li>
                     <li>Community FAQ access</li>
                 </ul>
-                <a href="/signup" class="btn btn-outline" style="width:100%; text-align:center;">Start Free</a>
+                {% if user %}
+    <a href="/dashboard" class="btn btn-outline" style="width:100%; text-align:center;">You're on Free</a>
+{% else %}
+    <a href="/signup" class="btn btn-outline" style="width:100%; text-align:center;">Start Free</a>
+{% endif %}
             </div>
 
             <div class="pricing-card featured">
@@ -32,7 +36,11 @@
                     <li>Prevention & treatment plans</li>
                     <li>Growth timeline per plant</li>
                 </ul>
-                <a href="/signup" class="btn" style="width:100%; text-align:center;">Choose Basic</a>
+                {% if user %}
+    <a href="/checkout/basic" class="btn" style="width:100%; text-align:center;">Choose Basic</a>
+{% else %}
+    <a href="/signup" class="btn" style="width:100%; text-align:center;">Choose Basic</a>
+{% endif %}
             </div>
 
             <div class="pricing-card">
@@ -46,7 +54,11 @@
                     <li>Weather-aware care alerts</li>
                     <li>Priority diagnosis accuracy</li>
                 </ul>
-                <a href="/signup" class="btn btn-outline" style="width:100%; text-align:center;">Choose Pro</a>
+                {% if user %}
+    <a href="/checkout/pro" class="btn btn-outline" style="width:100%; text-align:center;">Choose Pro</a>
+{% else %}
+    <a href="/signup" class="btn btn-outline" style="width:100%; text-align:center;">Choose Pro</a>
+{% endif %}
             </div>
         </div>
 
