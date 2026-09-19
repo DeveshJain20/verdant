@@ -13,6 +13,9 @@ class User(Base):
     full_name = Column(String(100), nullable=True)
     plan = Column(String(20), default="free")  # "free", "basic", "pro"
     razorpay_subscription_id = Column(String(100), nullable=True)
+    scan_count = Column(Integer, default=0)
+    monthly_scan_count = Column(Integer, default=0)
+    monthly_reset_at = Column(DateTime, default=datetime.utcnow)
     created_at = Column(DateTime, default=datetime.utcnow)
 
     plants = relationship("Plant", back_populates="owner", cascade="all, delete-orphan")

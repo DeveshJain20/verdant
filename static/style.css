@@ -60,8 +60,6 @@ h1, h2, h3 {
 
 a { color: inherit; }
 
-/* ===== Header / nav ===== */
-
 .site-header {
     position: sticky;
     top: 0;
@@ -121,7 +119,6 @@ a { color: inherit; }
 .nav-links a:hover { color: var(--sage-dark); }
 .nav-links a:hover::after { width: 100%; }
 
-/* Hamburger toggle button (hidden on desktop) */
 .nav-toggle {
     display: none;
     flex-direction: column;
@@ -161,8 +158,6 @@ a { color: inherit; }
     padding: 3rem 1.5rem;
 }
 
-/* ===== Eyebrow badge ===== */
-
 .eyebrow {
     display: inline-block;
     font-family: 'Inter', monospace;
@@ -176,8 +171,6 @@ a { color: inherit; }
     border-radius: 999px;
     margin-bottom: 0.9rem;
 }
-
-/* ===== App dashboard hero ===== */
 
 .hero { padding: 3rem 0; }
 
@@ -205,8 +198,6 @@ a { color: inherit; }
     from { opacity: 0; transform: translateY(14px); }
     to { opacity: 1; transform: translateY(0); }
 }
-
-/* ===== Plant grid & cards ===== */
 
 .plant-grid {
     display: grid;
@@ -272,8 +263,6 @@ a { color: inherit; }
 .status { font-weight: 600; margin: 0.5rem 0; }
 .status-warning { color: var(--orange); }
 
-/* ===== Buttons ===== */
-
 .btn {
     background: linear-gradient(135deg, var(--sage) 0%, var(--sage-dark) 100%);
     color: white;
@@ -320,8 +309,6 @@ a { color: inherit; }
     padding: 1rem 2rem;
     font-size: 1.02rem;
 }
-
-/* ===== Forms ===== */
 
 .plant-form label {
     display: block;
@@ -371,8 +358,6 @@ a { color: inherit; }
 .dark-section h2 { color: white; }
 .dark-section p { color: #c8cfc4; }
 
-/* ===== Scanner ===== */
-
 .scan-box {
     background: white;
     border: 2px dashed var(--card-border);
@@ -416,8 +401,6 @@ a { color: inherit; }
 .candidate:last-child { border-bottom: none; }
 
 .scientific-name { font-style: italic; color: var(--muted); }
-
-/* ===== Footer ===== */
 
 .site-footer {
     background: var(--forest);
@@ -473,8 +456,6 @@ a { color: inherit; }
     color: #9aa596;
 }
 
-/* ===== Marketing hero ===== */
-
 .marketing-hero {
     position: relative;
     text-align: center;
@@ -510,8 +491,6 @@ a { color: inherit; }
 .marketing-hero .hero-buttons { animation-delay: 0.24s; }
 
 .hero-buttons { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
-
-/* ===== Stats ===== */
 
 .stats-grid {
     display: grid;
@@ -556,8 +535,6 @@ a { color: inherit; }
     position: relative;
 }
 
-/* ===== Timeline ===== */
-
 .timeline-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -579,8 +556,6 @@ a { color: inherit; }
     font-weight: 700;
     letter-spacing: 0.05em;
 }
-
-/* ===== Problem cards ===== */
 
 .problem-grid {
     display: grid;
@@ -611,8 +586,6 @@ a { color: inherit; }
     color: var(--sage-dark);
 }
 
-/* ===== Testimonials ===== */
-
 .testimonial {
     position: relative;
     border-left: 3px solid var(--orange);
@@ -641,8 +614,6 @@ a { color: inherit; }
     color: var(--muted);
 }
 
-/* ===== Dark CTA ===== */
-
 .cta-dark {
     position: relative;
     background: var(--forest);
@@ -664,8 +635,6 @@ a { color: inherit; }
 .cta-dark > * { position: relative; }
 .cta-dark h2 { color: white; font-size: clamp(1.6rem, 3vw, 2.2rem); }
 .cta-dark p { color: #c8cfc4; margin-bottom: 1.5rem; }
-
-/* ===== Pricing ===== */
 
 .pricing-grid {
     display: grid;
@@ -712,8 +681,6 @@ a { color: inherit; }
     font-size: 0.92rem;
 }
 
-/* ===== Compare table ===== */
-
 .compare-table {
     width: 100%;
     border-collapse: collapse;
@@ -740,8 +707,6 @@ a { color: inherit; }
 }
 .compare-table tbody tr:hover td { background: #faf9f4; }
 
-/* ===== FAQ ===== */
-
 .faq-item {
     border-bottom: 1px solid var(--card-border);
     padding: 1.25rem 0;
@@ -767,16 +732,12 @@ a { color: inherit; }
 .faq-item[open] summary::after { transform: rotate(45deg); }
 .faq-item p { margin-top: 0.75rem; color: var(--muted); }
 
-/* ===== Contact ===== */
-
 .contact-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 2.5rem;
     margin-top: 2rem;
 }
-
-/* ===== Scroll-reveal (progressive enhancement — content is visible by default; only hides pre-animation once JS confirms it's active) ===== */
 
 .js-ready .stat-card,
 .js-ready .problem-card,
@@ -816,8 +777,6 @@ a { color: inherit; }
 .js-ready .pricing-grid .pricing-card:nth-child(2) { transition-delay: 0.15s; }
 .js-ready .pricing-grid .pricing-card:nth-child(3) { transition-delay: 0.25s; }
 
-/* ===== Responsive ===== */
-
 @media (max-width: 1000px) and (min-width: 801px) {
     .stats-grid, .pricing-grid, .problem-grid { grid-template-columns: repeat(2, 1fr); }
 }
@@ -835,8 +794,6 @@ a { color: inherit; }
     .footer-grid { grid-template-columns: 1fr 1fr; }
     .marketing-hero { padding: 3.5rem 1.25rem 2.5rem 1.25rem; }
 }
-
-/* ===== Mobile hamburger nav ===== */
 
 @media (max-width: 720px) {
     .nav-toggle { display: flex; }
@@ -877,3 +834,57 @@ a { color: inherit; }
         width: 100%;
     }
 }
+
+/* ===== Error alert ===== */
+
+.alert-box {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    background: #fdf1ec;
+    border: 1px solid #e8c4ac;
+    border-left: 4px solid var(--orange);
+    border-radius: 12px;
+    padding: 1rem 1.25rem;
+    margin-top: 1.25rem;
+    color: #8a4a2e;
+    animation: fadeInUp 0.3s var(--ease) both;
+}
+
+.alert-box .alert-icon {
+    font-size: 1.3rem;
+    line-height: 1;
+    flex-shrink: 0;
+}
+
+.alert-box p {
+    margin: 0;
+    font-size: 0.95rem;
+}
+
+.alert-box a {
+    color: var(--orange);
+    font-weight: 600;
+}
+
+/* ===== Health meter & upgrade modal ===== */
+
+.health-meter-row { display: flex; gap: 1.5rem; margin: 1.25rem 0; flex-wrap: wrap; }
+.health-meter { flex: 1; min-width: 200px; }
+.health-meter-label { display: flex; justify-content: space-between; font-size: 0.85rem; font-weight: 600; margin-bottom: 0.35rem; }
+.health-meter-bar { background: #e8e4d4; border-radius: 8px; height: 14px; overflow: hidden; }
+.health-meter-fill { height: 100%; border-radius: 8px; transition: width 0.8s var(--ease); }
+.health-meter-fill.good { background: linear-gradient(90deg, #6b8f5f, #4a6b3f); }
+.health-meter-fill.ok { background: linear-gradient(90deg, #d9a441, #c9784a); }
+.health-meter-fill.bad { background: linear-gradient(90deg, #d9634a, #a13a2e); }
+.meter-disclaimer { font-size: 0.78rem; color: var(--muted); margin-top: 1rem; }
+
+.modal-overlay {
+    position: fixed; inset: 0; background: rgba(30, 42, 26, 0.55);
+    display: flex; align-items: center; justify-content: center; z-index: 200;
+    animation: fadeInUp 0.25s var(--ease) both;
+}
+.modal-box { background: white; border-radius: 18px; padding: 2rem; max-width: 420px; width: 90%; text-align: center; box-shadow: var(--shadow-lg); }
+.modal-box h2 { margin-bottom: 0.5rem; }
+.modal-box p { color: var(--muted); margin-bottom: 1.5rem; }
+.modal-close { background: none; border: none; color: var(--muted); text-decoration: underline; cursor: pointer; margin-top: 0.75rem; font-size: 0.9rem; }

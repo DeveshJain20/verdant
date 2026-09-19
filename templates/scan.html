@@ -3,39 +3,170 @@
 {% block content %}
     <span class="eyebrow">// AI PLANT SCANNER</span>
     <h1>What plant is this?</h1>
-    <p>Upload a clear photo of a leaf or flower and Verdant will try to identify the species using PlantNet's AI.</p>
+    <p>Point your camera at a leaf or flower — Verdant identifies it and checks its health instantly.</p>
 
-    <form action="/scan" method="post" enctype="multipart/form-data" class="scan-box">
-        <p>📷 Choose a photo (leaf, flower, or whole plant)</p>
-        <input type="file" name="photo" accept="image/*" required>
+    {% if scan_status and scan_status.scans_left is not none %}
+        <p class="status {% if scan_status.scans_left == 0 %}status-warning{% endif %}">
+            {% if scan_status.scans_left > 0 %}{{ scan_status.scans_left }} scan(s) left {% if user.plan == 'basic' %}this month{% endif %}{% else %}No scans left — <a href="/services">upgrade for more</a>{% endif %}
+        </p>
+    {% endif %}
+
+    <form action="/scan" method="post" enctype="multipart/form-data" class="scan-box" id="scan-form">
+        <div id="upload-controls">
+            <p>📷 Scan live, or choose a photo</p>
+            <button type="button" class="btn" id="camera-btn">Use Camera</button>
+            <br><br>
+            <input type="file" name="photo" id="photo-input" accept="image/*" required>
+        </div>
+
+        <div id="camera-area" style="display:none; margin-top:1rem;">
+            <video id="camera-preview" autoplay playsinline style="width:100%; max-width:420px; border-radius:12px; border:1px solid var(--card-border);"></video>
+            <br>
+            <button type="button" class="btn" id="capture-btn" style="margin-top:0.75rem;">📸 Capture & Analyze</button>
+            <button type="button" class="btn-outline btn" id="cancel-camera-btn" style="margin-top:0.75rem;">Cancel</button>
+        </div>
+
+        <canvas id="camera-canvas" style="display:none;"></canvas>
         <br>
-        <button type="submit" class="btn">Identify Plant</button>
+        <button type="submit" class="btn" id="submit-btn">Identify & Diagnose</button>
     </form>
 
     {% if error %}
+        <div class="alert-box"><span class="alert-icon">⚠️</span><p>{{ error }}</p></div>
+    {% endif %}
+
+    {% if top_match %}
         <div class="scan-result">
-            <p class="status status-warning">{{ error }}</p>
+            <span class="eyebrow">// RESULT</span>
+            <h2>{{ top_match.common_name }}</h2>
+            {% if reveal != "name_only" %}
+                <p class="scientific-name">{{ top_match.scientific_name }} — {{ top_match.confidence_pct }}% confidence</p>
+            {% endif %}
+
+            {% if diagnosis and reveal in ("full", "issues_only") %}
+            <div class="health-meter-row">
+                <div class="health-meter">
+                    <div class="health-meter-label"><span>Plant Health</span><span>{{ diagnosis.health_score }}/100</span></div>
+                    <div class="health-meter-bar"><div class="health-meter-fill {% if diagnosis.health_score >= 70 %}good{% elif diagnosis.health_score >= 40 %}ok{% else %}bad{% endif %}" style="width: {{ diagnosis.health_score }}%"></div></div>
+                </div>
+                <div class="health-meter">
+                    <div class="health-meter-label"><span>Recovery Chance</span><span>{{ diagnosis.recovery_chance }}%</span></div>
+                    <div class="health-meter-bar"><div class="health-meter-fill {% if diagnosis.recovery_chance >= 70 %}good{% elif diagnosis.recovery_chance >= 40 %}ok{% else %}bad{% endif %}" style="width: {{ diagnosis.recovery_chance }}%"></div></div>
+                </div>
+            </div>
+            <p class="meter-disclaimer">Health and recovery scores are AI estimates based on the species and common symptoms — not a lab diagnosis.</p>
+            {% endif %}
+
+            {% if reveal == "name_only" %}
+                <div class="alert-box" style="background:#eef4ec; border-color:var(--sage); color:var(--sage-dark);">
+                    <span class="alert-icon">🔒</span>
+                    <p>You've used your free scans. <a href="/services">Upgrade</a> to see health score, issues, prevention, and treatment.</p>
+                </div>
+            {% endif %}
+
+            {% if diagnosis and reveal == "full" %}
+            <h3 style="margin-top:1.5rem;">Common Issues</h3>
+            <ul class="log-list">{% for issue in diagnosis.common_issues %}<li>{{ issue }}</li>{% endfor %}</ul>
+            <h3 style="margin-top:1.5rem;">Prevention</h3>
+            <ul class="log-list">{% for tip in diagnosis.prevention %}<li>{{ tip }}</li>{% endfor %}</ul>
+            <h3 style="margin-top:1.5rem;">Treatment</h3>
+            <ul class="log-list">{% for step in diagnosis.treatment %}<li>{{ step }}</li>{% endfor %}</ul>
+            {% elif diagnosis and reveal == "issues_only" %}
+            <h3 style="margin-top:1.5rem;">Common Issues</h3>
+            <ul class="log-list">{% for issue in diagnosis.common_issues %}<li>{{ issue }}</li>{% endfor %}</ul>
+            <div class="alert-box" style="background:#eef4ec; border-color:var(--sage); color:var(--sage-dark);">
+                <span class="alert-icon">🔒</span>
+                <p>Prevention & treatment steps are available on <a href="/services">Basic and Pro plans</a>.</p>
+            </div>
+            {% endif %}
+
+            {% if reveal != "name_only" %}
+            <form action="/plants/new" method="get">
+                <input type="hidden" name="prefill_name" value="{{ top_match.common_name }}">
+                <input type="hidden" name="prefill_species" value="{{ top_match.scientific_name }}">
+                <button type="submit" class="btn" style="margin-top:1.5rem;">Add this plant to my collection</button>
+            </form>
+            {% endif %}
         </div>
     {% endif %}
 
-    {% if results %}
+    {% if results and reveal != "name_only" %}
         <div class="scan-result">
-            <h2>Possible matches</h2>
-            {% for r in results %}
+            <h2>Other possible matches</h2>
+            {% for r in results[1:] %}
                 <div class="candidate">
                     <strong>{{ r.common_name }}</strong>
                     <p class="scientific-name">{{ r.scientific_name }}</p>
-                    <div class="confidence-bar">
-                        <div class="confidence-fill" style="width: {{ r.confidence_pct }}%"></div>
-                    </div>
+                    <div class="confidence-bar"><div class="confidence-fill" style="width: {{ r.confidence_pct }}%"></div></div>
                     <p>{{ r.confidence_pct }}% confidence</p>
-                    <form action="/plants/new" method="get">
-                        <input type="hidden" name="prefill_name" value="{{ r.common_name }}">
-                        <input type="hidden" name="prefill_species" value="{{ r.scientific_name }}">
-                        <button type="submit" class="btn btn-small">Add this plant</button>
-                    </form>
                 </div>
             {% endfor %}
         </div>
     {% endif %}
+
+    {% if show_upgrade_popup %}
+    <div class="modal-overlay" id="upgrade-modal">
+        <div class="modal-box">
+            <h2>You've used all your free scans 🌿</h2>
+            <p>Upgrade to Basic or Pro to unlock health scores, full diagnosis, and more scanning.</p>
+            <a href="/services" class="btn" style="width:100%;">See Plans</a>
+            <br>
+            <button class="modal-close" onclick="document.getElementById('upgrade-modal').style.display='none'">Maybe later</button>
+        </div>
+    </div>
+    {% endif %}
+
+    <script>
+    (function () {
+        var cameraBtn = document.getElementById('camera-btn');
+        var cancelBtn = document.getElementById('cancel-camera-btn');
+        var captureBtn = document.getElementById('capture-btn');
+        var video = document.getElementById('camera-preview');
+        var canvas = document.getElementById('camera-canvas');
+        var fileInput = document.getElementById('photo-input');
+        var uploadControls = document.getElementById('upload-controls');
+        var cameraArea = document.getElementById('camera-area');
+        var scanForm = document.getElementById('scan-form');
+        var stream = null;
+
+        function stopStream() {
+            if (stream) { stream.getTracks().forEach(function (t) { t.stop(); }); stream = null; }
+        }
+
+        cameraBtn.addEventListener('click', function () {
+            navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } })
+                .then(function (s) {
+                    stream = s;
+                    video.srcObject = s;
+                    uploadControls.style.display = 'none';
+                    cameraArea.style.display = 'block';
+                })
+                .catch(function () { alert('Could not access camera. You can still upload a photo instead.'); });
+        });
+
+        cancelBtn.addEventListener('click', function () {
+            stopStream();
+            cameraArea.style.display = 'none';
+            uploadControls.style.display = 'block';
+        });
+
+        captureBtn.addEventListener('click', function () {
+            canvas.width = video.videoWidth;
+            canvas.height = video.videoHeight;
+            canvas.getContext('2d').drawImage(video, 0, 0);
+            canvas.toBlob(function (blob) {
+                var file = new File([blob], 'capture.jpg', { type: 'image/jpeg' });
+                var dt = new DataTransfer();
+                dt.items.add(file);
+                fileInput.files = dt.files;
+                stopStream();
+                scanForm.submit();
+            }, 'image/jpeg', 0.9);
+        });
+
+        fileInput.addEventListener('change', function () {
+            if (fileInput.files.length > 0) { scanForm.submit(); }
+        });
+    })();
+    </script>
 {% endblock %}

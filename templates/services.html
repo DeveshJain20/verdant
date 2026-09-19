@@ -13,10 +13,10 @@
                 <div class="price">$0<span>/mo</span></div>
                 <p>For casual growers trying it out.</p>
                 <ul class="pricing-features">
-                    <li>3 scans per month</li>
+                    <li>3 scans total</li>
+                    <li>Full details on scan 1, less on each scan after</li>
                     <li>Species identification</li>
                     <li>Basic watering tracker</li>
-                    <li>Community FAQ access</li>
                 </ul>
                 {% if user %}
                     <a href="/dashboard" class="btn btn-outline" style="width:100%; text-align:center;">You're on Free</a>
@@ -31,7 +31,7 @@
                 <div class="price">₹499<span>/mo</span></div>
                 <p>For growers who want real answers, not guesses.</p>
                 <ul class="pricing-features">
-                    <li>Unlimited scans</li>
+                    <li>10 scans per month</li>
                     <li>Full issue diagnosis</li>
                     <li>Prevention & treatment plans</li>
                     <li>Growth timeline per plant</li>
@@ -49,10 +49,10 @@
                 <div class="price">₹1,299<span>/mo</span></div>
                 <p>Everything in Basic, plus a plant expert on demand.</p>
                 <ul class="pricing-features">
+                    <li>Unlimited scans</li>
                     <li>Everything in Basic</li>
                     <li>AI chat assistant per plant</li>
                     <li>Weather-aware care alerts</li>
-                    <li>Priority diagnosis accuracy</li>
                 </ul>
                 {% if user %}
                     <a href="/checkout/pro" class="btn btn-outline" style="width:100%; text-align:center;">Choose Pro</a>
@@ -75,9 +75,9 @@
             </thead>
             <tbody>
                 <tr>
-                    <td>Scans per month</td>
-                    <td>3</td>
-                    <td>Unlimited</td>
+                    <td>Scans</td>
+                    <td>3 total</td>
+                    <td>10/month</td>
                     <td>Unlimited</td>
                 </tr>
                 <tr>
@@ -87,14 +87,20 @@
                     <td>Yes</td>
                 </tr>
                 <tr>
+                    <td>Health & recovery score</td>
+                    <td>1st scan only</td>
+                    <td>Yes</td>
+                    <td>Yes</td>
+                </tr>
+                <tr>
                     <td>Full issue diagnosis</td>
-                    <td>—</td>
+                    <td>1st scan only</td>
                     <td>Yes</td>
                     <td>Yes</td>
                 </tr>
                 <tr>
                     <td>Treatment plans</td>
-                    <td>—</td>
+                    <td>1st scan only</td>
                     <td>Yes</td>
                     <td>Yes</td>
                 </tr>
