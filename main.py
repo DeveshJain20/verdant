@@ -3,11 +3,18 @@ from fastapi.staticfiles import StaticFiles
 
 from database import Base, engine
 from routers import plants, api, scan, auth, marketing, billing
+
 Base.metadata.create_all(bind=engine)
 
 app = FastAPI(title="Verdant - AI Plant Diagnosis")
 
 app.mount("/static", StaticFiles(directory="static"), name="static")
+
+
+@app.api_route("/health", methods=["GET", "HEAD"], include_in_schema=False)
+def health():
+    return {"status": "ok"}
+
 
 app.include_router(marketing.router)
 app.include_router(auth.router)
