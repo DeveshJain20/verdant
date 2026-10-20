@@ -6,7 +6,26 @@ from dotenv import load_dotenv
 load_dotenv()
 
 client = Groq(api_key=os.getenv("GROQ_API_KEY"))
-MODEL = "llama-3.3-70b-versatile"
+MODEL = os.getenv("GROQ_MODEL", "openai/gpt-oss-120b")
+
+
+def _extra():
+    return {"reasoning_effort": "low"} if "gpt-oss" in MODEL else {}
+
+
+def _parse_json(text: str) -> dict:
+    start = text.find("{")
+    end = text.rfind("}")
+    if start == -1 or end == -1:
+        raise ValueError("no JSON object in model reply")
+    return json.loads(text[start:end + 1])
+
+
+def _clamp(value, default):
+    try:
+        return max(0, min(100, int(value)))
+    except (TypeError, ValueError):
+        return default
 
 
 def get_diagnosis(common_name: str, scientific_name: str) -> dict:
@@ -30,18 +49,16 @@ Keep each item to one short sentence, specific to this species. health_score and
             model=MODEL,
             messages=[{"role": "user", "content": prompt}],
             temperature=0.4,
-            max_tokens=500,
+            max_tokens=1500,
+            extra_body=_extra(),
         )
-        text = response.choices[0].message.content.strip()
-        if text.startswith("```"):
-            text = text.strip("`")
-            if text.startswith("json"):
-                text = text[4:]
-        data = json.loads(text)
-        data["health_score"] = int(data.get("health_score", 70))
-        data["recovery_chance"] = int(data.get("recovery_chance", 70))
+        text = (response.choices[0].message.content or "").strip()
+        data = _parse_json(text)
+        data["health_score"] = _clamp(data.get("health_score"), 70)
+        data["recovery_chance"] = _clamp(data.get("recovery_chance"), 70)
         return data
-    except Exception:
+    except Exception as e:
+        print(f"[diagnosis] Groq call failed with model {MODEL}: {type(e).__name__}: {e}", flush=True)
         return {
             "health_score": 70,
             "recovery_chance": 70,
